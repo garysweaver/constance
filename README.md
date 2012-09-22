@@ -7,7 +7,7 @@ Hooks into and can override Rails 3.x+ constant loading.
 
 Put this in your Gemfile:
 
-    gem 'constance'
+    gem 'constance', :git => 'git://github.com/garysweaver/constance.git'
 
 Do:
 
