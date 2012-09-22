@@ -3,7 +3,7 @@ Constance for Rails 3.x+
 
 Hooks into and can override Rails 3.x+ constant loading.
 
-=== Installation
+### Installation
 
 Put this in your Gemfile:
 
@@ -15,7 +15,7 @@ Do:
 
 This will just add something that 
 
-=== Configuration
+### Configuration
 
 In `config/application.rb` or wherever makes sense either do one or more of these:
 
@@ -35,7 +35,7 @@ or:
       Constance.caller_search_mapping = {(\/app\/|\/lib\/) => {Journey => Fantastic::Journey}}
     end
 
-=== Yet to do
+### Yet to do
 
 To actually resolve classes only when caller includes /app/ or /lib/ as described above, may need to override Rails' autoloading, or uncache the class each time via proc, or use your own class registry, or do a pull request and I can add something.
 
