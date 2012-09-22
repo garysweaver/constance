@@ -1,6 +1,8 @@
 Constance for Rails 3.x+
 =====
 
+*Not yet working, I'm afraid. Will work on later probably, but pull requests welcome.*
+
 Hooks into and can override Rails 3.x+ constant loading.
 
 ### Installation
