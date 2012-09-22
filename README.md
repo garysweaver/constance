@@ -39,6 +39,8 @@ or:
 
 To actually resolve classes only when caller includes /app/ or /lib/ as described above, may need to override Rails' autoloading, or uncache the class each time via proc, or use your own class registry, or do a pull request and I can add something.
 
+Also could list the app/models/fantastic directory, get the names and convert them to classnames without using constantize so it won't do class resolution, put them in an array, and add a 'ModelName' => Fantastic::ModelName hash for the search mapping.
+
 ### License
 
 Copyright (c) 2012 Gary S. Weaver, released under the [MIT license][lic].
