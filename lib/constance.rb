@@ -1,5 +1,5 @@
 require 'constance/version'
-require 'constance/dependencies'
+require 'constance/railtie'
 
 module Constance
   class << self

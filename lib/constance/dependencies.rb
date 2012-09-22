@@ -1,3 +1,5 @@
+#puts "ActiveSupport::Dependencies.methods=#{ActiveSupport::Dependencies.methods.collect{|m|m.to_s}}"
+
 module ActiveSupport
   module Dependencies
     alias_method(:load_missing_constant_constance_renamed, :load_missing_constant)

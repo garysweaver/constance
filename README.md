@@ -25,14 +25,14 @@ In `config/application.rb` or wherever makes sense either do one or more of thes
     Constance.proc = lambda{|from_mod, const_name, caller| puts "my lambda was called from_mod=#{from_mod.inspect} const_name=#{const_name.inspect} caller: #{caller.inspect}"}
     
     # Let your local Journey class override the Rails 3.2 Journey class when referred to indirectly or directly via /app/ or /lib/ code.
-    Constance.caller_search_mapping = {(\/app\/|\/lib\/) => {Journey => Fantastic::Journey}}
+    Constance.caller_search_mapping = {/(\/app\/|\/lib\/)/ => {'Journey' => Fantastic::Journey}}
 
 or:
 
     Constance.configure do
       debug = true
       Constance.proc = lambda{|from_mod, const_name, caller| puts "my lambda was called from_mod=#{from_mod.inspect} const_name=#{const_name.inspect} caller: #{caller.inspect}"}
-      Constance.caller_search_mapping = {(\/app\/|\/lib\/) => {Journey => Fantastic::Journey}}
+      Constance.caller_search_mapping = {/(\/app\/|\/lib\/)/ => {'Journey' => Fantastic::Journey}}
     end
 
 ### Yet to do
