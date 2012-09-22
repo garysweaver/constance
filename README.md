@@ -1,17 +1,43 @@
 Constance for Rails 3.x+
 =====
 
-A debugging tool, a Rails dependency class resolution tool that uses info from the call stack, or do a pull request and make it do more or less. Constance is wild.
+Hooks into and can override Rails 3.x+ constant loading.
 
-Put `gem 'constance` your Gemfile, `bundle install` and then whenever a constant uses dependencies.rb in Rails 3.x+, you'll see output about the load via `puts "load_missing_constant:\nfrom_mod=#{from_mod.inspect}\nconst_name=#{const_name.inspect}\ncaller:\n#{caller.pretty_inspect}"`.
+=== Installation
 
-Then, tweak it to return other classes depending on stack via:
+Put this in your Gemfile:
 
-    ActiveSupport::Dependencies.constance = lambda{|from_mod, const_name, caller| some_code_that_returns_class_or_nil }
+    gem 'constance'
 
-if `ActiveSupport::Dependencies.constance` returns something, that is considered the constant your were looking for. Otherwise it uses the normal Rails load_missing_constant.
+Do:
 
-This was to deal with cases in which a local model is named the same as a gem module or classname, etc., if you look at references to /lib/ /app/ or similar within the strings in the caller stack via regexp, you could then return something like `YourModule::TheConflictingModelClass`.
+    bundle install
+
+This will just add something that 
+
+=== Configuration
+
+In `config/application.rb` or wherever makes sense either do one or more of these:
+
+    Constance.debug = true
+
+    # Use a proc or lambda to resolve or do something only when classes are looked up
+    Constance.proc = lambda{|from_mod, const_name, caller| puts "my lambda was called from_mod=#{from_mod.inspect} const_name=#{const_name.inspect} caller: #{caller.inspect}"}
+    
+    # Let your local Journey class override the Rails 3.2 Journey class when referred to indirectly or directly via /app/ or /lib/ code.
+    Constance.caller_search_mapping = {(\/app\/|\/lib\/) => {Journey => Fantastic::Journey}}
+
+or:
+
+    Constance.configure do
+      debug = true
+      Constance.proc = lambda{|from_mod, const_name, caller| puts "my lambda was called from_mod=#{from_mod.inspect} const_name=#{const_name.inspect} caller: #{caller.inspect}"}
+      Constance.caller_search_mapping = {(\/app\/|\/lib\/) => {Journey => Fantastic::Journey}}
+    end
+
+=== Yet to do
+
+To actually resolve classes only when caller includes /app/ or /lib/ as described above, may need to override Rails' autoloading, or uncache the class each time via proc, or use your own class registry, or do a pull request and I can add something.
 
 ### License
 
