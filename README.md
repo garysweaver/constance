@@ -7,7 +7,7 @@ Debug or override Rails 3.x+ constant loading.
 
 Put this in your Gemfile:
 
-    gem 'constance', :git => 'git://github.com/garysweaver/constance.git'
+    gem 'constance'
 
 Do:
 
