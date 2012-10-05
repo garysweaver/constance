@@ -2,6 +2,8 @@ require 'constance/config'
 
 module Constance
   class Resolver
+    Store = {}
+
     # return a constant or if returns nil, Rails will use ActiveSupport::Dependencies.load_missing_constant
     def self.resolve(from_mod, const_name)
       if Constance.caller_search_mapping
@@ -14,7 +16,8 @@ module Constance
         klass = Constance.proc.call(from_mod, const_name)
         puts "#{self.class.name} proc did not resolve" if Constance.verbose? && !klass
       end
-      if klass
+      # if got something and didn't ask to replace it
+      if klass && !Store[const_name.to_sym]
         puts "#{self.class.name} setting #{const_name} => #{klass} on ActiveSupport::Dependencies::Reference @store" if Constance.verbose?
         ActiveSupport::Dependencies::Reference.instance_variable_get(:@store)[const_name] = klass if klass
       end
@@ -29,6 +32,15 @@ module Constance
             return caller_search_mapping[search][const_name.to_s].try(:constantize)
           end
         end
+      end
+    end
+
+    def self.will_replace(const)
+      Store[const.to_sym, const]
+      begin
+        Object.send(:remove_const, const)
+      rescue
+        puts "#{self.class.name} removed #{const.to_sym} with:\n#{$!.message}\n#{$!.backtrace}" if Constance.verbose?
       end
     end
   end

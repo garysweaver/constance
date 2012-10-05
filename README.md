@@ -48,6 +48,10 @@ or using a block:
       self.caller_search_mapping = {/(\/app\/|\/lib\/)/ => {'Journey' => 'Fantastic::Journey'}} # go through the caller stack to see if was called from a local or gem file that had app or lib in the path
     end
 
+### Replacing existing constants
+
+    Constance::Resolver.will_replace(Journey)
+
 ### Example
 
 Non-verbose debug logging:
