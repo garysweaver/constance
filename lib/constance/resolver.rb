@@ -36,11 +36,11 @@ module Constance
     end
 
     def self.will_replace(const)
-      Store[const.to_sym, const]
+      Store[const.to_s.to_sym] = const
       begin
         Object.send(:remove_const, const)
       rescue
-        puts "#{self.class.name} removed #{const.to_sym} with:\n#{$!.message}\n#{$!.backtrace}" if Constance.verbose?
+        puts "#{self.class.name} removed #{const.to_s.to_sym} with:\n#{$!.message}\n#{$!.backtrace}" if Constance.verbose?
       end
     end
   end
